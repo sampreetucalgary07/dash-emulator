@@ -79,6 +79,8 @@ class DashABRController(ABRController):
         # Only use 70% of measured bandwidth
         available_bandwidth = int(self.bandwidth_meter.bandwidth * 0.7)
 
+        print("available bandwidth is: " + str(self.bandwidth_meter.bandwidth))
+
         # Count the number of video adaptation sets and audio adaptation sets
         num_videos = 0
         num_audios = 0
