@@ -31,7 +31,8 @@ class DashABRController(ABRController):
                  panic_buffer: float,
                  safe_buffer: float,
                  bandwidth_meter: BandwidthMeter,
-                 buffer_manager: BufferManager):
+                 buffer_manager: BufferManager,
+                 abr):
         """
         Parameters
         ----------
@@ -48,6 +49,7 @@ class DashABRController(ABRController):
         self.safe_buffer = safe_buffer
         self.bandwidth_meter = bandwidth_meter
         self.buffer_manager = buffer_manager
+        self.abr_algorithm = abr
 
         self._last_selections: Optional[Dict[int, int]] = None
 
@@ -90,6 +92,8 @@ class DashABRController(ABRController):
             else:
                 num_audios += 1
 
+        print("num of videos: " + str(num_videos) + " num of audios: " + str(num_audios))
+        
         # Calculate ideal selections
         if num_videos == 0 or num_audios == 0:
             bw_per_adaptation_set = available_bandwidth / (num_videos + num_audios)
@@ -110,18 +114,21 @@ class DashABRController(ABRController):
         final_selections = dict()
 
         # Take the buffer level into considerations
-        if self._last_selections is not None:
-            for id_, adaptation_set in adaptation_sets.items():
-                representations = adaptation_set.representations
-                last_repr = representations[self._last_selections.get(id_)]
-                ideal_repr = representations[ideal_selection.get(id_)]
-                if buffer_level < self.panic_buffer:
-                    final_repr_id = last_repr.id if last_repr.bandwidth < ideal_repr.bandwidth else ideal_repr.id
-                elif buffer_level > self.safe_buffer:
-                    final_repr_id = last_repr.id if last_repr.bandwidth > ideal_repr.bandwidth else ideal_repr.id
-                else:
-                    final_repr_id = ideal_repr.id
-                final_selections[id_] = final_repr_id
+        if self.abr_algorithm == 'buffer-based':
+            if self._last_selections is not None:
+                for id_, adaptation_set in adaptation_sets.items():
+                    representations = adaptation_set.representations
+                    last_repr = representations[self._last_selections.get(id_)]
+                    ideal_repr = representations[ideal_selection.get(id_)]
+                    if buffer_level < self.panic_buffer:
+                        final_repr_id = last_repr.id if last_repr.bandwidth < ideal_repr.bandwidth else ideal_repr.id
+                    elif buffer_level > self.safe_buffer:
+                        final_repr_id = last_repr.id if last_repr.bandwidth > ideal_repr.bandwidth else ideal_repr.id
+                    else:
+                        final_repr_id = ideal_repr.id
+                    final_selections[id_] = final_repr_id
+            else:
+                final_selections = ideal_selection
         else:
             final_selections = ideal_selection
         self._last_selections = final_selections
