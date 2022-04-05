@@ -59,8 +59,8 @@ class DashABRController(ABRController):
 
         self._last_selections: Optional[Dict[int, int]] = None
 
-        self.NETFLIX_RESERVOIR = 0.1
-        self.NETFLIX_CUSHION = 0.9
+        self.RESERVOIR = 0.1
+        self.UPPER_RESERVOIR = 0.9
 
     def update_selection(self, adaptation_sets: Dict[int, AdaptationSet]) -> Dict[int, int]:
         if self.abr_algorithm == 'buffer-based':
@@ -129,7 +129,9 @@ class DashABRController(ABRController):
 
     def bandwidth_based(self, adaptation_sets: Dict[int, AdaptationSet]) -> Dict[int, int]:
         # Only use 70% of measured bandwidth
-        available_bandwidth = int(self.bandwidth_meter.bandwidth * 0.7)
+        # available_bandwidth = int(self.bandwidth_meter.bandwidth * 0.7)
+        available_bandwidth = int(self.bandwidth_meter.bandwidth)
+
 
         # Count the number of video adaptation sets and audio adaptation sets
         num_videos = 0
@@ -190,19 +192,11 @@ class DashABRController(ABRController):
 
     def buffer_based(self, adaptation_sets: Dict[int, AdaptationSet]) -> Dict[int, int]:
         final_selections = dict()
-        print("-------heree---------")
-        if self._last_selections is None:
-            for adaptation_set in adaptation_sets.values():
-                final_selections[adaptation_set.id] = self._find_representation_id_of_lowest_bitrate(
-                    adaptation_set)
+ 
+        for adaptation_set in adaptation_sets.values():
+            final_selections[adaptation_set.id] = self.choose_ideal_selection_buffer_based(
+                adaptation_set)
 
-        else:
-            for adaptation_set in adaptation_sets.values():
-                final_selections[adaptation_set.id] = self.choose_ideal_selection_buffer_based(
-                    adaptation_set)
-
-        self._last_selections = final_selections
-        print(final_selections)
         return final_selections
 
     def get_rate_map(self, bitrates):
@@ -210,15 +204,15 @@ class DashABRController(ABRController):
         Module to generate the rate map for the bitrates, reservoir, and cushion
         """
         rate_map = OrderedDict()
-        rate_map[self.NETFLIX_RESERVOIR] = bitrates[0]
+        rate_map[self.RESERVOIR] = bitrates[0]
         intermediate_levels = bitrates[1:-1]
-        marker_length = (self.NETFLIX_CUSHION -
-                         self.NETFLIX_RESERVOIR)/(len(intermediate_levels)+1)
-        current_marker = self.NETFLIX_RESERVOIR + marker_length
+        marker_length = (self.UPPER_RESERVOIR -
+                         self.RESERVOIR)/(len(intermediate_levels)+1)
+        current_marker = self.RESERVOIR + marker_length
         for bitrate in intermediate_levels:
             rate_map[current_marker] = bitrate
             current_marker += marker_length
-        rate_map[self.NETFLIX_CUSHION] = bitrates[-1]
+        rate_map[self.UPPER_RESERVOIR] = bitrates[-1]
         return rate_map
 
     def choose_ideal_selection_buffer_based(self, adaptation_set) -> int:
@@ -247,15 +241,13 @@ class DashABRController(ABRController):
         current_buffer_occupancy = self.buffer_manager.buffer_level
         buffer_percentage = current_buffer_occupancy/self.buffer_size
 
-        print("buffer precentage -----")
-        print(buffer_percentage)
         # Selecting the next bitrate based on the rate map
         if self.rate_map == None:
             self.rate_map = self.get_rate_map(bitrates)
 
-        if buffer_percentage <= self.NETFLIX_RESERVOIR:
+        if buffer_percentage <= self.RESERVOIR:
             next_bitrate = bitrates[0]
-        elif buffer_percentage >= self.NETFLIX_CUSHION:
+        elif buffer_percentage >= self.UPPER_RESERVOIR:
             next_bitrate = bitrates[-1]
         else:
             for marker in reversed(self.rate_map.keys()):
