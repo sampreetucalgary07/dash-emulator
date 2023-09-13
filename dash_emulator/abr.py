@@ -225,7 +225,7 @@ class DashABRController(ABRController):
         return representation.id
 
     def buffer_based(self, adaptation_sets: Dict[int, AdaptationSet]) -> Dict[int, int]:
-        print("\nSelected buffer-based ABR algorithm \n")
+        # print("\nSelected buffer-based ABR algorithm \n")
         final_selections = dict()
 
         for adaptation_set in adaptation_sets.values():
@@ -278,10 +278,11 @@ class DashABRController(ABRController):
 
         # Calculate the current buffer occupancy percentage
         current_buffer_occupancy = self.buffer_manager.buffer_level
-        print("\nCurrent buffer occupancy: ", type(current_buffer_occupancy))
+        print("\nCurrent buffer occupancy: ", current_buffer_occupancy)
         print("\n")
 
         buffer_percentage = current_buffer_occupancy / self.buffer_size
+        print("\nbuffer_precentage", buffer_percentage)
 
         # Selecting the next bitrate based on the rate map
         if self.rate_map == None:
