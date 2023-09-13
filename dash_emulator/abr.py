@@ -233,6 +233,7 @@ class DashABRController(ABRController):
                 adaptation_set.id
             ] = self.choose_ideal_selection_buffer_based(adaptation_set)
         print("\nFinal Selections: ", final_selections)
+        print(final_selections)
         return final_selections
 
     def get_rate_map(self, bitrates):
@@ -302,7 +303,7 @@ class DashABRController(ABRController):
         for representation in adaptation_set.representations.values():
             if representation.bandwidth == next_bitrate:
                 representation_id = representation.id
-
+        print("\nRepresentation ID: ", representation_id)
         return representation_id
 
     def _find_representation_id_of_lowest_bitrate(
