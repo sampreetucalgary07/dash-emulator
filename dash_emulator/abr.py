@@ -232,7 +232,7 @@ class DashABRController(ABRController):
             final_selections[
                 adaptation_set.id
             ] = self.choose_ideal_selection_buffer_based(adaptation_set)
-
+        print("\nFinal Selections: ", final_selections)
         return final_selections
 
     def get_rate_map(self, bitrates):
