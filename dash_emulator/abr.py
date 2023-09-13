@@ -275,7 +275,7 @@ class DashABRController(ABRController):
             for representation in adaptation_set.representations.values()
         ]
         bitrates.sort()
-
+        print("\nBitrates: ", bitrates)
         # Calculate the current buffer occupancy percentage
         current_buffer_occupancy = self.buffer_manager.buffer_level
         print("\nCurrent buffer occupancy: ", current_buffer_occupancy)

@@ -51,4 +51,7 @@ class BufferManagerImpl(BufferManager):
 
     @property
     def buffer_level(self):
+        print("buffer_postion : ", self._buffer_position)
+        print("position : ", self._position)
+        print(self._buffer_position - self._position)
         return self._buffer_position - self._position
