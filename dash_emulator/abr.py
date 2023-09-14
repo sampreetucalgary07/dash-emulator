@@ -233,7 +233,7 @@ class DashABRController(ABRController):
                 adaptation_set.id
             ] = self.choose_ideal_selection_buffer_based(adaptation_set)
         print("\nFinal Selections: ", final_selections)
-        print(final_selections)
+        # print(final_selections)
         return final_selections
 
     def get_rate_map(self, bitrates):
@@ -275,8 +275,7 @@ class DashABRController(ABRController):
             representation.bandwidth
             for representation in adaptation_set.representations.values()
         ]
-        bitrates.sort()
-        print("\nBitrates: ", bitrates)
+        bitrates.sort()  # -> [391570, 641379, 988603, 1489543, 2284798, 3487003, 5253818]
         # Calculate the current buffer occupancy percentage
         current_buffer_occupancy = self.buffer_manager.buffer_level
         print("\nCurrent buffer occupancy: ", current_buffer_occupancy)
