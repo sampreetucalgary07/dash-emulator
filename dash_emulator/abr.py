@@ -195,7 +195,7 @@ class DashABRController(ABRController):
                     ] = self.choose_ideal_selection_bandwidth_based(
                         adaptation_set, bw_per_audio
                     )
-        print("\nIdeal Selections: ", ideal_selection)
+        print("\nIdeal Selection: ", ideal_selection)
         return ideal_selection_video
 
     @staticmethod
