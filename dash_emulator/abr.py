@@ -159,9 +159,8 @@ class DashABRController(ABRController):
         # Count the number of video adaptation sets and audio adaptation sets
         num_videos = 0
         num_audios = 0
-        # print("\nAdaptation sets: ", adaptation_sets)
-        print("Num videos : ", num_videos)
-        print("Num Videos : ", num_audios)
+        # print("Num videos : ", num_videos)
+        # print("Num Videos : ", num_audios)
         for adaptation_set in adaptation_sets.values():
             if adaptation_set.content_type == "video":
                 num_videos += 1
@@ -199,7 +198,7 @@ class DashABRController(ABRController):
                     )
         # print("\nIdeal Selection: ", ideal_selection)
         ideal_selection = {0: 3}
-        print("\nIdeal Selection: ", ideal_selection)
+        # print("\nIdeal Selection: ", ideal_selection)
         return ideal_selection
 
     @staticmethod
