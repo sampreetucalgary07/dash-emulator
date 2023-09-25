@@ -201,6 +201,7 @@ class DashABRController(ABRController):
         ideal_selection[0] = int(self.slope * ideal_selection[0])
         print("\nIdeal Selections: ", ideal_selection)
         print("Slope: ", self.slope)
+        print("Available bandwidth: ", available_bandwidth)
         return ideal_selection
 
     @staticmethod
