@@ -159,8 +159,6 @@ class DashABRController(ABRController):
         # Count the number of video adaptation sets and audio adaptation sets
         num_videos = 0
         num_audios = 0
-        # print("Num videos : ", num_videos)
-        # print("Num Videos : ", num_audios)
         for adaptation_set in adaptation_sets.values():
             if adaptation_set.content_type == "video":
                 num_videos += 1
@@ -196,9 +194,7 @@ class DashABRController(ABRController):
                     ] = self.choose_ideal_selection_bandwidth_based(
                         adaptation_set, bw_per_audio
                     )
-        ideal_selection[0] = int(self.slope * ideal_selection[0])
         print("\nIdeal Selections: ", ideal_selection)
-        # print("Available bandwidth: ", available_bandwidth)
         return ideal_selection
 
     @staticmethod
