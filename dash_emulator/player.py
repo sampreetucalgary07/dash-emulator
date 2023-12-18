@@ -12,7 +12,9 @@ from dash_emulator.service import AsyncService
 
 class PlayerEventListener(ABC):
     @abstractmethod
-    async def on_state_change(self, position: float, old_state: State, new_state: State):
+    async def on_state_change(
+        self, position: float, old_state: State, new_state: State
+    ):
         pass
 
     @abstractmethod
@@ -62,15 +64,17 @@ class Player(ABC):
 
 
 class DASHPlayer(Player):
-    def __init__(self,
-                 update_interval: float,
-                 min_rebuffer_duration: float,
-                 min_start_buffer_duration: float,
-                 buffer_manager: BufferManager,
-                 mpd_provider: MPDProvider,
-                 scheduler: Scheduler,
-                 listeners: List[PlayerEventListener],
-                 services: List[AsyncService] = None):
+    def __init__(
+        self,
+        update_interval: float,
+        min_rebuffer_duration: float,
+        min_start_buffer_duration: float,
+        buffer_manager: BufferManager,
+        mpd_provider: MPDProvider,
+        scheduler: Scheduler,
+        listeners: List[PlayerEventListener],
+        services: List[AsyncService] = None,
+    ):
         """
         Parameters
         ----------
@@ -124,6 +128,8 @@ class DASHPlayer(Player):
 
     async def start(self, mpd_url) -> None:
         # Start services
+        print("Starting services")
+        print(mpd_url)
         for service in self.services:
             asyncio.create_task(service.start())
 
@@ -194,4 +200,8 @@ class DASHPlayer(Player):
                         await self._switch_state(self._state, State.READY)
                         self._state = State.READY
 
-            await asyncio.sleep(min(buffer_level, self.update_interval) if buffer_level > 0 else self.update_interval)
+            await asyncio.sleep(
+                min(buffer_level, self.update_interval)
+                if buffer_level > 0
+                else self.update_interval
+            )
