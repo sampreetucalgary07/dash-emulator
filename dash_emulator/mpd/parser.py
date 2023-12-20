@@ -47,10 +47,10 @@ class DefaultMPDParser(MPDParser):
         return content
 
     def parse(self, content: str, url: str) -> MPD:
-        print(content)
+        # print(content)
         content = self.remove_namespace_from_content(content)
         root = ElementTree.fromstring(content)
-        print(root)
+        # print(root)
 
         # type
         type_ = root.attrib["type"]

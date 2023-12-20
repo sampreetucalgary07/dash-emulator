@@ -128,8 +128,8 @@ class DASHPlayer(Player):
 
     async def start(self, mpd_url) -> None:
         # Start services
-        print("Starting services")
-        print(mpd_url)
+        # print("Starting services")
+        # print(mpd_url)
         for service in self.services:
             asyncio.create_task(service.start())
 
