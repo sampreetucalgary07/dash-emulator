@@ -9,7 +9,8 @@ from dash_emulator.buffer import BufferManager
 from dash_emulator.download import DownloadManager
 from dash_emulator.models import AdaptationSet
 
-print(" ------------ ENtered the scheduler.py file -----------------  ")
+log = logging.getLogger("scheduler.py")
+log.info(" ------------ ENtered the scheduler.py file -----------------  ")
 class SchedulerEventListener(ABC):
     @abstractmethod
     async def on_segment_download_start(self, index, selections):
