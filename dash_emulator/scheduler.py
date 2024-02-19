@@ -8,9 +8,8 @@ from dash_emulator.bandwidth import BandwidthMeter
 from dash_emulator.buffer import BufferManager
 from dash_emulator.download import DownloadManager
 from dash_emulator.models import AdaptationSet
+import logging
 
-log = logging.getLogger("scheduler.py")
-log.info(" ------------ ENtered the scheduler.py file -----------------  ")
 class SchedulerEventListener(ABC):
     @abstractmethod
     async def on_segment_download_start(self, index, selections):
@@ -68,6 +67,7 @@ class Scheduler(ABC):
 
 
 class SchedulerImpl(Scheduler):
+    log = logging.getLogger("SchedulerImpl from dash_emulator")
     def __init__(self,
                  max_buffer_duration: float,
                  update_interval: float,
@@ -113,8 +113,10 @@ class SchedulerImpl(Scheduler):
         self._representation_initialized: Set[str] = set()
 
         self._end = False
-
+        
+        
     async def loop(self):
+        self.log.info("Scheduler loop started")
         while True:
             # Check buffer level
             if self.buffer_manager.buffer_level > self.max_buffer_duration:
