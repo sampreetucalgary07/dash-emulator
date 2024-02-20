@@ -155,7 +155,7 @@ class DashABRController(ABRController):
         # Only use 70% of measured bandwidth
         # available_bandwidth = int(self.bandwidth_meter.bandwidth * 0.7)
         available_bandwidth = int(self.bandwidth_meter.bandwidth)
-        print("\nAvailable bandwidth: ", available_bandwidth)
+        #print("\nAvailable bandwidth: ", available_bandwidth)
         # Count the number of video adaptation sets and audio adaptation sets
         num_videos = 0
         num_audios = 0
@@ -194,7 +194,7 @@ class DashABRController(ABRController):
                     ] = self.choose_ideal_selection_bandwidth_based(
                         adaptation_set, bw_per_audio
                     )
-        print("\nIdeal Selections: ", ideal_selection)
+        #print("\nIdeal Selections: ", ideal_selection)
         return ideal_selection
 
     @staticmethod
