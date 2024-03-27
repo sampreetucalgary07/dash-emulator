@@ -7,7 +7,9 @@ import aiohttp
 
 class DownloadEventListener(ABC):
     @abstractmethod
-    async def on_bytes_transferred(self, length: int, url: str, position: int, size: int) -> None:
+    async def on_bytes_transferred(
+        self, length: int, url: str, position: int, size: int
+    ) -> None:
         """
         Parameters
         ----------
@@ -118,19 +120,20 @@ class DownloadManager(ABC):
 
 
 class DownloadManagerImpl(DownloadManager):
-    log = logging.getLogger('DownloadManagerImpl')
+    log = logging.getLogger("DownloadManagerImpl")
 
-    def __init__(self,
-                 event_listeners: List[DownloadEventListener],
-                 write_to_disk=False,
-                 chunk_size=4096
-                 ):
+    def __init__(
+        self,
+        event_listeners: List[DownloadEventListener],
+        write_to_disk=False,
+        chunk_size=4096,
+    ):
         """
         Parameters
         ----------
         event_listeners: List[DownloadEventListener],
             Listeners to events of some bytes downloaded
-            
+
         write_to_disk: bool
             Should we write the downloaded bytes to the disk
 
@@ -157,7 +160,7 @@ class DownloadManagerImpl(DownloadManager):
         if self._session is None:
             self._session = aiohttp.ClientSession()
 
-        content = bytearray()
+        content = bytearray()  # initializes a new bytearray object named "content"
         async with self._session.get(url) as resp:
             position = 0
             for listener in self.event_listeners:
@@ -174,7 +177,9 @@ class DownloadManagerImpl(DownloadManager):
                     content.extend(chunk)
                 position += size
                 for listener in self.event_listeners:
-                    await listener.on_bytes_transferred(size, url, position, resp.content_length)
+                    await listener.on_bytes_transferred(
+                        size, url, position, resp.content_length
+                    )
             if self._stop:
                 for listener in self.event_listeners:
                     await listener.on_transfer_canceled(url, position, size)

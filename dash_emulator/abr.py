@@ -95,10 +95,10 @@ class DashABRController(ABRController):
             ideal_selection: Dict[int, int] = dict()
 
             for adaptation_set in adaptation_sets.values():
-                ideal_selection[
-                    adaptation_set.id
-                ] = self.choose_ideal_selection_bandwidth_based(
-                    adaptation_set, bw_per_adaptation_set
+                ideal_selection[adaptation_set.id] = (
+                    self.choose_ideal_selection_bandwidth_based(
+                        adaptation_set, bw_per_adaptation_set
+                    )
                 )
         else:
             bw_per_video = (available_bandwidth * 0.8) / num_videos
@@ -106,16 +106,16 @@ class DashABRController(ABRController):
             ideal_selection: Dict[int, int] = dict()
             for adaptation_set in adaptation_sets.values():
                 if adaptation_set.content_type == "video":
-                    ideal_selection[
-                        adaptation_set.id
-                    ] = self.choose_ideal_selection_bandwidth_based(
-                        adaptation_set, bw_per_video
+                    ideal_selection[adaptation_set.id] = (
+                        self.choose_ideal_selection_bandwidth_based(
+                            adaptation_set, bw_per_video
+                        )
                     )
                 else:
-                    ideal_selection[
-                        adaptation_set.id
-                    ] = self.choose_ideal_selection_bandwidth_based(
-                        adaptation_set, bw_per_audio
+                    ideal_selection[adaptation_set.id] = (
+                        self.choose_ideal_selection_bandwidth_based(
+                            adaptation_set, bw_per_audio
+                        )
                     )
 
         buffer_level = self.buffer_manager.buffer_level
@@ -155,7 +155,7 @@ class DashABRController(ABRController):
         # Only use 70% of measured bandwidth
         # available_bandwidth = int(self.bandwidth_meter.bandwidth * 0.7)
         available_bandwidth = int(self.bandwidth_meter.bandwidth)
-        #print("\nAvailable bandwidth: ", available_bandwidth)
+        print("\nBandwidth measured ", available_bandwidth)
         # Count the number of video adaptation sets and audio adaptation sets
         num_videos = 0
         num_audios = 0
@@ -171,10 +171,10 @@ class DashABRController(ABRController):
             ideal_selection: Dict[int, int] = dict()
 
             for adaptation_set in adaptation_sets.values():
-                ideal_selection[
-                    adaptation_set.id
-                ] = self.choose_ideal_selection_bandwidth_based(
-                    adaptation_set, bw_per_adaptation_set
+                ideal_selection[adaptation_set.id] = (
+                    self.choose_ideal_selection_bandwidth_based(
+                        adaptation_set, bw_per_adaptation_set
+                    )
                 )
         else:
             bw_per_video = (available_bandwidth * 0.8) / num_videos
@@ -183,18 +183,18 @@ class DashABRController(ABRController):
 
             for adaptation_set in adaptation_sets.values():
                 if adaptation_set.content_type == "video":
-                    ideal_selection[
-                        adaptation_set.id
-                    ] = self.choose_ideal_selection_bandwidth_based(
-                        adaptation_set, bw_per_video
+                    ideal_selection[adaptation_set.id] = (
+                        self.choose_ideal_selection_bandwidth_based(
+                            adaptation_set, bw_per_video
+                        )
                     )
                 else:
-                    ideal_selection[
-                        adaptation_set.id
-                    ] = self.choose_ideal_selection_bandwidth_based(
-                        adaptation_set, bw_per_audio
+                    ideal_selection[adaptation_set.id] = (
+                        self.choose_ideal_selection_bandwidth_based(
+                            adaptation_set, bw_per_audio
+                        )
                     )
-        #print("\nIdeal Selections: ", ideal_selection)
+        # print("\nIdeal Selections: ", ideal_selection)
         return ideal_selection
 
     @staticmethod
@@ -230,9 +230,9 @@ class DashABRController(ABRController):
         final_selections = dict()
 
         for adaptation_set in adaptation_sets.values():
-            final_selections[
-                adaptation_set.id
-            ] = self.choose_ideal_selection_buffer_based(adaptation_set)
+            final_selections[adaptation_set.id] = (
+                self.choose_ideal_selection_buffer_based(adaptation_set)
+            )
         print("\nFinal Selections: ", final_selections)
         # print(final_selections)
         return final_selections
