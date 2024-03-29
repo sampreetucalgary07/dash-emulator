@@ -155,7 +155,7 @@ class DashABRController(ABRController):
         # Only use 70% of measured bandwidth
         # available_bandwidth = int(self.bandwidth_meter.bandwidth * 0.7)
         available_bandwidth = int(self.bandwidth_meter.bandwidth)
-        print("\nBandwidth measured ", available_bandwidth)
+        # print("\nBandwidth measured ", available_bandwidth)
         # Count the number of video adaptation sets and audio adaptation sets
         num_videos = 0
         num_audios = 0
@@ -233,7 +233,7 @@ class DashABRController(ABRController):
             final_selections[adaptation_set.id] = (
                 self.choose_ideal_selection_buffer_based(adaptation_set)
             )
-        print("\nFinal Selections: ", final_selections)
+        # print("\nFinal Selections: ", final_selections)
         # print(final_selections)
         return final_selections
 
@@ -279,11 +279,11 @@ class DashABRController(ABRController):
         bitrates.sort()  # -> [391570, 641379, 988603, 1489543, 2284798, 3487003, 5253818]
         # Calculate the current buffer occupancy percentage
         current_buffer_occupancy = self.buffer_manager.buffer_level
-        print("\nCurrent buffer occupancy: ", current_buffer_occupancy)
-        print("\n")
+        # print("\nCurrent buffer occupancy: ", current_buffer_occupancy)
+        # print("\n")
 
         buffer_percentage = current_buffer_occupancy / self.buffer_size
-        print("\nbuffer_precentage", buffer_percentage)
+        # print("\nbuffer_precentage", buffer_percentage)
 
         # Selecting the next bitrate based on the rate map
         if self.rate_map == None:
@@ -303,7 +303,7 @@ class DashABRController(ABRController):
         for representation in adaptation_set.representations.values():
             if representation.bandwidth == next_bitrate:
                 representation_id = representation.id
-        print("\nRepresentation ID: ", representation_id)
+        # print("\nRepresentation ID: ", representation_id)
         return representation_id
 
     def _find_representation_id_of_lowest_bitrate(
