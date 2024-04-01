@@ -127,17 +127,12 @@ class DASHPlayer(Player):
             await listener.on_state_change(self._position, old_state, new_state)
 
     async def start(self, mpd_url) -> None:
-        # Start services
-        # print("Starting services")
-        # print(mpd_url)
         for service in self.services:
             asyncio.create_task(service.start())
 
         # If the player doesn't have an MPD object, the player waits for it
         # Else the player doesn't wait for it
         if self._mpd_obj is None:
-            # print("Starting MPD provider")
-            # print(mpd_url)
             await self.mpd_provider.start(mpd_url)
             self._mpd_obj = self.mpd_provider.mpd
         else:
