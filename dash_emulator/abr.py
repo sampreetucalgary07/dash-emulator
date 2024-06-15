@@ -195,7 +195,8 @@ class DashABRController(ABRController):
                         )
                     )
         print("\nIdeal Selections: ", ideal_selection)
-        return ideal_selection
+        # return ideal_selection
+        return {0: 5}
 
     @staticmethod
     def choose_ideal_selection_bandwidth_based(adaptation_set, bw) -> int:
