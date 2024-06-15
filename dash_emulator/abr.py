@@ -195,6 +195,7 @@ class DashABRController(ABRController):
                         )
                     )
         print("\nIdeal Selections: ", ideal_selection)
+        ideal_selection[adaptation_set.id] = 5
         return ideal_selection
 
     @staticmethod
