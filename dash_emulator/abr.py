@@ -223,7 +223,8 @@ class DashABRController(ABRController):
             if representation.bandwidth < bw:
                 return representation.id
         # If there's no representation whose bitrate is lower than the estimate, return the lowest one
-        return representation.id
+        # return representation.id
+        return 5
 
     def buffer_based(self, adaptation_sets: Dict[int, AdaptationSet]) -> Dict[int, int]:
         # print("\nSelected buffer-based ABR algorithm \n")
