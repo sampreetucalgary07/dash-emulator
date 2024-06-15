@@ -194,7 +194,7 @@ class DashABRController(ABRController):
                             adaptation_set, bw_per_audio
                         )
                     )
-        # print("\nIdeal Selections: ", ideal_selection)
+        print("\nIdeal Selections: ", ideal_selection)
         return ideal_selection
 
     @staticmethod
@@ -223,8 +223,7 @@ class DashABRController(ABRController):
             if representation.bandwidth < bw:
                 return representation.id
         # If there's no representation whose bitrate is lower than the estimate, return the lowest one
-        # return representation.id
-        return 5
+        return representation.id
 
     def buffer_based(self, adaptation_sets: Dict[int, AdaptationSet]) -> Dict[int, int]:
         # print("\nSelected buffer-based ABR algorithm \n")
