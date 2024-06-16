@@ -194,7 +194,7 @@ class DashABRController(ABRController):
                             adaptation_set, bw_per_audio
                         )
                     )
-        print("\nIdeal Selections: ", ideal_selection)
+        # print("\nIdeal Selections: ", ideal_selection)
         # ideal_selection[adaptation_set.id] = 5
         return ideal_selection
 
