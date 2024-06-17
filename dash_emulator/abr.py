@@ -32,8 +32,8 @@ class ABRController(ABC):
 class DashABRController(ABRController):
     def __init__(
         self,
-        panic_buffer: float,
-        safe_buffer: float,
+        panic_buffer: float,  # Not used
+        safe_buffer: float,  # Not used
         bandwidth_meter: BandwidthMeter,
         buffer_manager: BufferManager,
         abr: str,
@@ -53,7 +53,7 @@ class DashABRController(ABRController):
         """
         self.panic_buffer = panic_buffer
         self.safe_buffer = safe_buffer
-        self.buffer_size = max_buffer_duration
+        self.buffer_size = max_buffer_duration  # used only in buffer-based ABR
         self.bandwidth_meter = bandwidth_meter
         self.buffer_manager = buffer_manager
         self.abr_algorithm = abr
@@ -153,7 +153,7 @@ class DashABRController(ABRController):
         self, adaptation_sets: Dict[int, AdaptationSet]
     ) -> Dict[int, int]:
         # Only use 70% of measured bandwidth
-        # available_bandwidth = int(self.bandwidth_meter.bandwidth * 0.7)
+        # available_bandwidth = int(self.bandwidth_meter.bandwidth * 0.9)
         available_bandwidth = int(self.bandwidth_meter.bandwidth)
         # print("\nBandwidth measured ", available_bandwidth)
         # Count the number of video adaptation sets and audio adaptation sets
