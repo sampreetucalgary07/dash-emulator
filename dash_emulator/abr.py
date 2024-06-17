@@ -63,8 +63,8 @@ class DashABRController(ABRController):
 
         self._last_selections: Optional[Dict[int, int]] = None
 
-        self.RESERVOIR = 0.1
-        self.UPPER_RESERVOIR = 0.9
+        self.RESERVOIR = 0.3
+        self.UPPER_RESERVOIR = 0.7
 
     def update_selection(
         self, adaptation_sets: Dict[int, AdaptationSet]
