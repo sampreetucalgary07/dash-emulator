@@ -100,7 +100,7 @@ class DashABRController(ABRController):
                         adaptation_set, bw_per_adaptation_set
                     )
                 )
-        else:
+        else:  ### This is NOT the case
             bw_per_video = (available_bandwidth * 0.8) / num_videos
             bw_per_audio = (available_bandwidth * 0.2) / num_audios
             ideal_selection: Dict[int, int] = dict()
