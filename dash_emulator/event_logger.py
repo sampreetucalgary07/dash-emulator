@@ -6,7 +6,7 @@ from dash_emulator.scheduler import SchedulerEventListener
 
 class EventLogger(SchedulerEventListener, PlayerEventListener):
     def __init__(self) -> None:
-        super().__init__()
+        # super().__init__()
         self.states = []
 
     log = logging.getLogger("EventLogger")
