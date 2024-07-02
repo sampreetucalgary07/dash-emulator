@@ -119,6 +119,7 @@ class DashABRController(ABRController):
                     )
 
         buffer_level = self.buffer_manager.buffer_level
+        ideal_selection[adaptation_set.id] = 6
         final_selections = dict()
 
         # Take the buffer level into considerations
