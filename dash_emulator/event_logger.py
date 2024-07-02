@@ -18,7 +18,7 @@ class EventLogger(SchedulerEventListener, PlayerEventListener):
         self, position: float, old_state: State, new_state: State
     ):
         if new_state == State.BUFFERING:
-            self.states.append([position, new_state])
+            self.states.append(position)
         self.log.info(
             "Switch state. pos: %.3f, from %s to %s" % (position, old_state, new_state)
         )
