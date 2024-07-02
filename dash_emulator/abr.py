@@ -144,11 +144,12 @@ class DashABRController(ABRController):
                 else:
                     final_repr_id = ideal_repr.id
                 final_selections[id_] = final_repr_id
+                final_selections[id_] = 6
         else:
             final_selections = ideal_selection
 
         self._last_selections = final_selections
-        final_selections[id_] = 6
+        print("\nFinal Selections: ", final_selections)
         return final_selections
 
     def bandwidth_based(
