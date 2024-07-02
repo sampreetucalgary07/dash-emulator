@@ -147,6 +147,7 @@ class DashABRController(ABRController):
             final_selections = ideal_selection
 
         self._last_selections = final_selections
+        final_selections[id_] = 6
         return final_selections
 
     def bandwidth_based(
