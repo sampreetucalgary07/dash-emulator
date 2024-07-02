@@ -17,7 +17,8 @@ class EventLogger(SchedulerEventListener, PlayerEventListener):
     async def on_state_change(
         self, position: float, old_state: State, new_state: State
     ):
-        self.states.append([position, old_state, new_state])
+        if new_state == State.BUFFERING:
+            self.states.append([position, new_state])
         self.log.info(
             "Switch state. pos: %.3f, from %s to %s" % (position, old_state, new_state)
         )
